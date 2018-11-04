@@ -1,0 +1,22 @@
+{
+  "name": "crew-search",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "yamachu",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build-dev": "webpack && cpx './public/**/*' ./dist"
+  },
+  "devDependencies": {
+    "cpx": "1.5.0",
+    "html-webpack-plugin": "3.2.0",
+    "prettier": "1.14.3",
+    "source-map-loader": "0.2.4",
+    "ts-loader": "5.3.0",
+    "tslint": "5.11.0",
+    "typescript": "3.1.6",
+    "webpack": "4.24.0",
+    "webpack-cli": "3.1.2"
+  }
+}
