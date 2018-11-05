@@ -28,6 +28,7 @@ module.exports = function(env, argv) {
             plugins: [
                 new HtmlWebpackPlugin({
                     template: 'template/index.html',
+                    filename: 'index.html',
                 }),
             ],
         },
@@ -51,6 +52,15 @@ module.exports = function(env, argv) {
                     { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
                 ],
             },
+            externals: {
+                gapi: 'gapi',
+            },
+            plugins: [
+                new HtmlWebpackPlugin({
+                    template: 'template/background.html',
+                    filename: 'background.html',
+                }),
+            ],
         },
     ];
 };

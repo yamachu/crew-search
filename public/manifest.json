@@ -8,9 +8,9 @@
         "default_popup": "./index.html"
     },
     "background": {
-        "scripts": ["background.js"],
+        "page": "./background.html",
         "persistent": false
     },
     "permissions": ["clipboardWrite"],
-    "content_security_policy": "script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'; connect-src 'self' wss://*.firebaseio.com;"
+    "content_security_policy": "script-src 'self' https://apis.google.com/ https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'; connect-src 'self' wss://*.firebaseio.com;"
 }
