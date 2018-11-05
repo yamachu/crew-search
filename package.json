@@ -9,8 +9,7 @@
     "build-dev": "webpack && cpx './public/**/*' ./dist"
   },
   "devDependencies": {
-    "@types/gapi": "^0.0.36",
-    "@types/gapi.auth2": "^0.0.48",
+    "@types/chrome": "0.0.75",
     "cpx": "1.5.0",
     "html-webpack-plugin": "3.2.0",
     "prettier": "1.14.3",
