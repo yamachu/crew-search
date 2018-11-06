@@ -1,7 +1,7 @@
 import * as config from '../credential/firebaseConfig.json';
-import { FirebaseClient } from './FirebaseClient';
-import { GoogleCalendarClient } from './GoogleCalendarClient';
-import { ExtensionMessage } from './message';
+import { ExtensionMessagePop2Back } from './contracts/message';
+import { FirebaseClient } from './services/FirebaseClient';
+import { GoogleCalendarClient } from './services/GoogleCalendarClient';
 
 // Todo: When expire access-token, do refresh...
 const firebase = new FirebaseClient(config);
@@ -57,7 +57,7 @@ const fetchSearchUrl = async (response: (val: any) => void) => {
 };
 
 // 非同期だとtrueを返すっぽい, ref: http://var.blog.jp/archives/52377390.html
-chrome.runtime.onMessage.addListener((msg: ExtensionMessage, sender, response) => {
+chrome.runtime.onMessage.addListener((msg: ExtensionMessagePop2Back, sender, response) => {
     switch (msg.type) {
         case 'LOGIN':
             login(response);

@@ -1,6 +1,6 @@
 console.log('This is popup process');
 
-import { AzureSearchService } from './AzureSearchClient';
+import { AzureSearchService } from './services/AzureSearchClient';
 
 new AzureSearchService({
     url: '',
