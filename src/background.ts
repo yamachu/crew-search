@@ -38,12 +38,13 @@ const searchRangedEvents = async (
 const fetchSearchUrl = async (response: (val: any) => void) => {
     return firebase
         .fetchSearchUrl()
-        .then(([url, token]) => {
+        .then(([url, token, index]) => {
             response({
                 ok: true,
                 payload: {
                     url,
                     token,
+                    index,
                 },
             });
         })

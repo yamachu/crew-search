@@ -25,7 +25,7 @@ export class FirebaseClient {
         return firebase.auth().signInWithPopup(provider);
     }
 
-    public async fetchSearchUrl(): Promise<[string, string]> {
+    public async fetchSearchUrl(): Promise<[string, string, string]> {
         return firebase
             .database()
             .ref('/consts')
@@ -38,6 +38,10 @@ export class FirebaseClient {
                         .then((s) => s.val()),
                     snapshot.ref
                         .child('token')
+                        .once('value')
+                        .then((s) => s.val()),
+                    snapshot.ref
+                        .child('index')
                         .once('value')
                         .then((s) => s.val()),
                 ]);
