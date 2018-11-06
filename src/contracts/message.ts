@@ -1,4 +1,4 @@
-export type ExtensionMessage =
+export type ExtensionMessagePop2Back =
     | {
           type: 'LOGIN';
       }
