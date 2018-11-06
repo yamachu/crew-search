@@ -6,7 +6,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build-dev": "webpack && cpx './public/**/*' ./dist"
+    "build-development": "webpack --mode='development' && cpx './public/**/*' ./dist",
+    "build-production": "webpack --mode='production' && cpx './public/**/*' ./dist"
   },
   "devDependencies": {
     "@types/chrome": "0.0.75",
