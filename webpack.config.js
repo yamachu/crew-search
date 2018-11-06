@@ -12,7 +12,7 @@ module.exports = function(env, argv) {
                 filename: 'popup.js',
             },
             resolve: {
-                extensions: ['.ts', '.tsx'],
+                extensions: ['.ts', '.tsx', '.js'],
             },
             devtool: argv.mode === 'production' ? false : 'source-map',
             module: {

@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@types/chrome": "0.0.75",
+    "@types/node": "10.12.2",
     "cpx": "1.5.0",
     "html-webpack-plugin": "3.2.0",
     "prettier": "1.14.3",
