@@ -21,6 +21,8 @@
     "webpack-cli": "3.1.2"
   },
   "dependencies": {
-    "firebase": "5.5.7"
+    "azure-search": "0.0.21",
+    "firebase": "5.5.7",
+    "rxjs": "6.3.3"
   }
 }
