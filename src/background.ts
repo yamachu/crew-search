@@ -1,22 +1,15 @@
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
 import * as config from '../credential/firebaseConfig.json';
+import { FirebaseClient } from './FirebaseClient';
 import { GoogleCalendarClient } from './GoogleCalendarClient';
 import { ExtensionMessage } from './message';
 
 // Todo: When expire access-token, do refresh...
-
-let client: GoogleCalendarClient;
-
-firebase.initializeApp(config);
+const firebase = new FirebaseClient(config);
+let client: GoogleCalendarClient | null = null;
 
 const login = async (response: (val: any) => void) => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    provider.addScope(config.scopes.join(' '));
     return firebase
-        .auth()
-        .signInWithPopup(provider)
+        .signIn()
         .then(async (result) => {
             client = new GoogleCalendarClient((result.credential as any).accessToken);
             response({ ok: true });
@@ -34,42 +27,32 @@ const searchRangedEvents = async (
     },
     response: (val: any) => void
 ) => {
-    const events = await client.FetchEventsInTheDate(payload.calendarId, payload.date);
-    response(events);
+    if (client !== null) {
+        const events = await client.FetchEventsInTheDate(payload.calendarId, payload.date);
+        response(events);
+    } else {
+        response({});
+    }
 };
 
 const fetchSearchUrl = async (response: (val: any) => void) => {
     return firebase
-        .database()
-        .ref('/consts')
-        .once('value')
-        .then((snapshot) => {
-            Promise.all([
-                snapshot.ref
-                    .child('url')
-                    .once('value')
-                    .then((s) => s.val()),
-                snapshot.ref
-                    .child('token')
-                    .once('value')
-                    .then((s) => s.val()),
-            ])
-                .then(([url, token]) => {
-                    response({
-                        ok: true,
-                        payload: {
-                            url,
-                            token,
-                        },
-                    });
-                })
-                .catch((error) => {
-                    console.error('Crew-Search Fetch Search Url failed', error);
-                    response({
-                        ok: false,
-                        error,
-                    });
-                });
+        .fetchSearchUrl()
+        .then(([url, token]) => {
+            response({
+                ok: true,
+                payload: {
+                    url,
+                    token,
+                },
+            });
+        })
+        .catch((error) => {
+            console.error('Crew-Search Fetch Search Url failed', error);
+            response({
+                ok: false,
+                error,
+            });
         });
 };
 
