@@ -12,6 +12,9 @@
   "devDependencies": {
     "@types/chrome": "0.0.75",
     "@types/node": "10.12.2",
+    "@types/react": "16.4.18",
+    "@types/react-dom": "16.0.9",
+    "@types/react-router-dom": "4.3.1",
     "cpx": "1.5.0",
     "html-webpack-plugin": "3.2.0",
     "prettier": "1.14.3",
@@ -25,6 +28,9 @@
   "dependencies": {
     "azure-search": "0.0.21",
     "firebase": "5.5.7",
+    "react": "16.6.1",
+    "react-dom": "16.6.1",
+    "react-router-dom": "4.3.1",
     "rxjs": "6.3.3"
   }
 }
