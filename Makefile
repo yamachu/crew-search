@@ -12,5 +12,8 @@ build-%:
 	npx webpack --mode='$*'
 	@npx cpx './public/**/*' $(DIST)
 
+watch:
+	npx webpack --mode='development' --watch
+
 clean:
 	rm -r $(DIST)
