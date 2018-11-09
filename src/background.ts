@@ -1,5 +1,11 @@
 import * as config from '../credential/firebaseConfig.json';
-import { ExtensionMessagePop2Back } from './contracts/message';
+import {
+    ExtensionMessageBack2Pop,
+    ExtensionMessagePop2Back,
+    FetchCalendarMessage,
+    FetchSearchUrlMessage,
+    IsSignedInMessage,
+} from './contracts/message';
 import { FirebaseClient } from './services/FirebaseClient';
 import { GoogleAPIClient } from './services/GoogleAPIClient';
 
@@ -7,7 +13,7 @@ import { GoogleAPIClient } from './services/GoogleAPIClient';
 const firebase = new FirebaseClient(config);
 let client: GoogleAPIClient | null = null;
 
-const login = async (response: (val: any) => void) => {
+const login = async (response: (val: ExtensionMessageBack2Pop) => void) => {
     return firebase
         .signIn()
         .then(async (result) => {
@@ -25,28 +31,37 @@ const searchRangedEvents = async (
         calendarId: string;
         date: Date;
     },
-    response: (val: any) => void
+    response: (val: ExtensionMessageBack2Pop) => void
 ) => {
     if (client !== null) {
         const events = await client.FetchEventsInTheDate(payload.calendarId, payload.date);
-        response(events);
+        const res: FetchCalendarMessage = {
+            ok: true,
+            payload: {
+                events,
+            },
+        };
+        response(res);
     } else {
-        response({});
+        response({
+            ok: false,
+        });
     }
 };
 
-const fetchSearchUrl = async (response: (val: any) => void) => {
+const fetchSearchUrl = async (response: (val: ExtensionMessageBack2Pop) => void) => {
     return firebase
         .fetchSearchUrl()
         .then(([url, token, index]) => {
-            response({
+            const res: FetchSearchUrlMessage = {
                 ok: true,
                 payload: {
                     url,
                     token,
                     index,
                 },
-            });
+            };
+            response(res);
         })
         .catch((error) => {
             console.error('Crew-Search Fetch Search Url failed', error);
@@ -57,18 +72,19 @@ const fetchSearchUrl = async (response: (val: any) => void) => {
         });
 };
 
-const isLoggedIn = async (response: (val: any) => void) => {
+const isLoggedIn = async (response: (val: ExtensionMessageBack2Pop) => void) => {
     if (client !== null) {
         client
             .isSignedIn()
-            .then((val) =>
-                response({
+            .then((val) => {
+                const res: IsSignedInMessage = {
                     ok: true,
                     payload: {
                         result: val,
                     },
-                })
-            )
+                };
+                response(res);
+            })
             .catch((val) => {
                 response({
                     ok: false,
@@ -93,7 +109,7 @@ chrome.runtime.onMessage.addListener((msg: ExtensionMessagePop2Back, sender, res
         case 'FETCH_SEARCH_URL':
             fetchSearchUrl(response);
             return true;
-        case 'IS_SIGNEDIN':
+        case 'IS_SIGNED_IN':
             isLoggedIn(response);
             return true;
         default:
