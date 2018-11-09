@@ -6,7 +6,7 @@ const output_path = 'dist';
 module.exports = function(env, argv) {
     return [
         {
-            entry: './src/popup.ts',
+            entry: './src/popup.tsx',
             output: {
                 path: path.resolve(__dirname, output_path),
                 filename: 'popup.js',
