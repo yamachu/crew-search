@@ -1,4 +1,4 @@
-export class GoogleCalendarClient {
+export class GoogleAPIClient {
     private accessToken: string;
     private calendarEndPoint = 'https://www.googleapis.com/calendar/v3';
 
@@ -10,6 +10,14 @@ export class GoogleCalendarClient {
         return this.FetchEvents(calendarId, {
             ...this.getRangedTime(date),
         });
+    }
+
+    public async isSignedIn(): Promise<boolean> {
+        return fetch(
+            `https://www.googleapis.com/oauth2/v2/tokeninfo?access_token=${this.accessToken}`
+        )
+            .then((res) => res.status === 200)
+            .catch((_) => false);
     }
 
     private async FetchEvents(calendarId: string, options?: object) {

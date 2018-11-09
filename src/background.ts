@@ -1,17 +1,17 @@
 import * as config from '../credential/firebaseConfig.json';
 import { ExtensionMessagePop2Back } from './contracts/message';
 import { FirebaseClient } from './services/FirebaseClient';
-import { GoogleCalendarClient } from './services/GoogleCalendarClient';
+import { GoogleAPIClient } from './services/GoogleAPIClient';
 
 // Todo: When expire access-token, do refresh...
 const firebase = new FirebaseClient(config);
-let client: GoogleCalendarClient | null = null;
+let client: GoogleAPIClient | null = null;
 
 const login = async (response: (val: any) => void) => {
     return firebase
         .signIn()
         .then(async (result) => {
-            client = new GoogleCalendarClient((result.credential as any).accessToken);
+            client = new GoogleAPIClient((result.credential as any).accessToken);
             response({ ok: true });
         })
         .catch((error) => {
@@ -57,6 +57,30 @@ const fetchSearchUrl = async (response: (val: any) => void) => {
         });
 };
 
+const isLoggedIn = async (response: (val: any) => void) => {
+    if (client !== null) {
+        client
+            .isSignedIn()
+            .then((val) =>
+                response({
+                    ok: true,
+                    payload: {
+                        result: val,
+                    },
+                })
+            )
+            .catch((val) => {
+                response({
+                    ok: false,
+                });
+            });
+    } else {
+        response({
+            ok: false,
+        });
+    }
+};
+
 // 非同期だとtrueを返すっぽい, ref: http://var.blog.jp/archives/52377390.html
 chrome.runtime.onMessage.addListener((msg: ExtensionMessagePop2Back, sender, response) => {
     switch (msg.type) {
@@ -68,6 +92,9 @@ chrome.runtime.onMessage.addListener((msg: ExtensionMessagePop2Back, sender, res
             return true;
         case 'FETCH_SEARCH_URL':
             fetchSearchUrl(response);
+            return true;
+        case 'IS_SIGNEDIN':
+            isLoggedIn(response);
             return true;
         default:
             response('unknown request');
