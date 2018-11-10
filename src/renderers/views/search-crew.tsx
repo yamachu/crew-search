@@ -9,6 +9,7 @@ import { AuthContext } from '../contexts/auth';
 export const SearchCrew = () => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [searchClient, setSearchClient] = useState<AzureSearchService | null>(null);
+    const [predictions, setPredictions] = useState<any[]>([]);
     const auth = useContext(AuthContext);
 
     const initalizeClient = () => {
@@ -40,7 +41,7 @@ export const SearchCrew = () => {
                     debounceTime(500),
                     switchMap((v) => from(searchClient!.searchUsers((v.target as any).value)))
                 )
-                .subscribe((v) => console.log(v));
+                .subscribe((v) => setPredictions(v));
             return () => {
                 disposable.unsubscribe();
             };
@@ -60,5 +61,14 @@ export const SearchCrew = () => {
         [auth.isSignedIn]
     );
 
-    return <input ref={inputRef} />;
+    return (
+        <>
+            <input ref={inputRef} />
+            <ul>
+                {predictions.map((v) => {
+                    return <li key={v.email}>{`${v.name} / ${v.email}`}</li>;
+                })}
+            </ul>
+        </>
+    );
 };
