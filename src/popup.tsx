@@ -1,14 +1,8 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { createGlobalStyle } from 'styled-components';
+import GlobalStyle from './renderers/styles/global';
 
-const GlobalStyle = createGlobalStyle`
-    body {
-        margin: 0;
-    }
-`; // サイズとか
-
-const App = () => {
+const Root = () => {
     return (
         <>
             <GlobalStyle />
@@ -17,4 +11,4 @@ const App = () => {
     );
 };
 
-render(<App />, document.getElementById('root'));
+render(<Root />, document.getElementById('root'));
