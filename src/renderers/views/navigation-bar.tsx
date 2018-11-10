@@ -25,7 +25,11 @@ export const NavigationBar = () => {
                             aria-owns={Boolean(anchorElement) ? 'material-appbar' : undefined}
                             aria-haspopup={'true'}
                             color={'inherit'}
-                            onClick={(ev) => setAnchorElement(ev.currentTarget)}
+                            onClick={(ev) =>
+                                /* setAnchorElement(ev.currentTarget) */ console.info(
+                                    'Icon Clicked'
+                                )
+                            }
                         >
                             <AccountCircle />
                         </IconButton>
