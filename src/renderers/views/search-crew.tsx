@@ -50,7 +50,7 @@ export const SearchCrew = () => {
     );
     useEffect(
         () => {
-            if (!auth.isSignedIn) {
+            if (!auth.props.isSignedIn) {
                 return;
             }
             if (searchClient !== null) {
@@ -58,7 +58,7 @@ export const SearchCrew = () => {
             }
             initalizeClient();
         },
-        [auth.isSignedIn]
+        [auth.props.isSignedIn]
     );
 
     return (

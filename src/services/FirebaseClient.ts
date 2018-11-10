@@ -47,4 +47,14 @@ export class FirebaseClient {
                 ]);
             });
     }
+
+    public async fetchUser(): Promise<firebase.User> {
+        return new Promise<firebase.User>((resolve, reject) => {
+            const user = firebase.auth().currentUser;
+            if (user !== null) {
+                resolve(user);
+            }
+            reject();
+        });
+    }
 }

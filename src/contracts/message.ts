@@ -1,3 +1,5 @@
+import { User } from './user';
+
 export type ExtensionMessagePop2Back =
     | {
           type: 'LOGIN';
@@ -14,6 +16,9 @@ export type ExtensionMessagePop2Back =
               calendarId: string;
               date: Date;
           };
+      }
+    | {
+          type: 'FETCH_USER';
       };
 
 export interface ExtensionMessageBack2Pop {
@@ -44,5 +49,11 @@ export interface LoginMessage extends ExtensionMessageBack2Pop {
 export interface FetchCalendarMessage extends ExtensionMessageBack2Pop {
     payload: {
         events: any; // Todo: 型付け
+    };
+}
+
+export interface FetchUserMessage extends ExtensionMessageBack2Pop {
+    payload: {
+        user: User;
     };
 }

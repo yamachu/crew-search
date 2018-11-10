@@ -4,6 +4,7 @@ import {
     ExtensionMessagePop2Back,
     FetchCalendarMessage,
     FetchSearchUrlMessage,
+    FetchUserMessage,
     IsSignedInMessage,
 } from './contracts/message';
 import { FirebaseClient } from './services/FirebaseClient';
@@ -97,6 +98,29 @@ const isLoggedIn = async (response: (val: ExtensionMessageBack2Pop) => void) => 
     }
 };
 
+const fetchUser = async (response: (val: ExtensionMessageBack2Pop) => void) => {
+    return firebase
+        .fetchUser()
+        .then((result) => {
+            const res: FetchUserMessage = {
+                ok: true,
+                payload: {
+                    user: {
+                        displayName: result.displayName ? result.displayName : '',
+                        email: result.email ? result.email : '',
+                        photoURL: result.photoURL ? result.photoURL : '',
+                    },
+                },
+            };
+            response(res);
+        })
+        .catch((_) => {
+            response({
+                ok: false,
+            });
+        });
+};
+
 // 非同期だとtrueを返すっぽい, ref: http://var.blog.jp/archives/52377390.html
 chrome.runtime.onMessage.addListener((msg: ExtensionMessagePop2Back, sender, response) => {
     switch (msg.type) {
@@ -111,6 +135,9 @@ chrome.runtime.onMessage.addListener((msg: ExtensionMessagePop2Back, sender, res
             return true;
         case 'IS_SIGNED_IN':
             isLoggedIn(response);
+            return true;
+        case 'FETCH_USER':
+            fetchUser(response);
             return true;
         default:
             response('unknown request');

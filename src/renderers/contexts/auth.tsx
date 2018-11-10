@@ -1,16 +1,33 @@
 import { createContext, useEffect, useState } from 'react';
 import React = require('react');
-import { ExtensionMessagePop2Back, IsSignedInMessage, LoginMessage } from '../../contracts/message';
+import {
+    ExtensionMessagePop2Back,
+    FetchUserMessage,
+    IsSignedInMessage,
+    LoginMessage,
+} from '../../contracts/message';
+import { User } from '../../contracts/user';
+
+interface IAuthProps {
+    isSignedIn: boolean;
+    user: User | null;
+}
+
+interface IAuthActions {
+    signIn: () => void;
+}
 
 interface IAuth {
-    isSignedIn: boolean;
-    actions: {
-        signIn: () => void;
-    };
+    props: IAuthProps;
+    actions: IAuthActions;
 }
 
 export const AuthContext = createContext<IAuth>({
-    isSignedIn: false,
+    props: {
+        isSignedIn: false,
+        user: null,
+    },
+
     actions: {
         signIn: () => {
             return;
@@ -19,8 +36,13 @@ export const AuthContext = createContext<IAuth>({
 });
 
 export const AuthManager = ({ children }: { children: any }) => {
+    const [props, setProps] = useState<IAuthProps>({
+        isSignedIn: false,
+        user: null,
+    });
     const [isSignedIn, setIsSignedIn] = useState(false);
-    const [actions, setActions] = useState({
+    const [user, setUser] = useState<User | null>(null);
+    const [actions, setActions] = useState<IAuthActions>({
         signIn: () => {
             return;
         },
@@ -56,5 +78,32 @@ export const AuthManager = ({ children }: { children: any }) => {
         });
     }, []);
 
-    return <AuthContext.Provider value={{ isSignedIn, actions }}>{children}</AuthContext.Provider>;
+    useEffect(
+        () => {
+            const message: ExtensionMessagePop2Back = {
+                type: 'FETCH_USER',
+            };
+            chrome.runtime.sendMessage(message, (response: FetchUserMessage) => {
+                if (!response.ok) {
+                    console.warn('FetchUser failed', response);
+                } else {
+                    setUser(response.payload.user);
+                }
+            });
+        },
+        [isSignedIn]
+    );
+
+    useEffect(
+        () => {
+            console.log('effect!', isSignedIn, user);
+            setProps({
+                isSignedIn,
+                user,
+            });
+        },
+        [isSignedIn, user]
+    );
+
+    return <AuthContext.Provider value={{ props, actions }}>{children}</AuthContext.Provider>;
 };
