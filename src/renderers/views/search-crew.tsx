@@ -1,21 +1,23 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import React = require('react');
 import { from, fromEvent } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { ExtensionMessagePop2Back, FetchSearchUrlMessage } from '../../contracts/message';
 import { AzureSearchService } from '../../services/AzureSearchClient';
+import { AuthContext } from '../contexts/auth';
 
 export const SearchCrew = () => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [searchClient, setSearchClient] = useState<AzureSearchService | null>(null);
+    const auth = useContext(AuthContext);
 
-    useEffect(() => {
+    const initalizeClient = () => {
         const message: ExtensionMessagePop2Back = {
             type: 'FETCH_SEARCH_URL',
         };
         chrome.runtime.sendMessage(message, (response: FetchSearchUrlMessage) => {
             if (!response.ok) {
-                console.error('Not Authrorized or ...', response);
+                console.warn('Not Authrorized or ...', response);
             } else {
                 const client = new AzureSearchService({
                     url: response.payload.url,
@@ -25,8 +27,9 @@ export const SearchCrew = () => {
                 setSearchClient(client);
             }
         });
-    }, []);
+    };
 
+    useEffect(initalizeClient, []);
     useEffect(
         () => {
             if (searchClient === null) {
@@ -43,6 +46,18 @@ export const SearchCrew = () => {
             };
         },
         [searchClient]
+    );
+    useEffect(
+        () => {
+            if (!auth.isSignedIn) {
+                return;
+            }
+            if (searchClient !== null) {
+                return;
+            }
+            initalizeClient();
+        },
+        [auth.isSignedIn]
     );
 
     return <input ref={inputRef} />;
