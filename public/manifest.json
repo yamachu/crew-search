@@ -14,6 +14,6 @@
         "persistent": false
     },
     "permissions": ["clipboardWrite"],
-    "content_security_policy": "script-src 'self' https://apis.google.com https://www.gstatic.com https://*.firebaseio.com https://www.googleapis.com; object-src 'self'; connect-src 'self' wss://*.firebaseio.com https://*.googleapis.com;",
+    "content_security_policy": "script-src 'self' https://apis.google.com https://www.gstatic.com https://*.firebaseio.com https://www.googleapis.com; object-src 'self'; connect-src 'self' wss://*.firebaseio.com https://*.googleapis.com https://*.search.windows.net;",
     "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAopI8wG2ffTUSF0mduB9h2fdtTy3bnnxNNhl+NerCfBrNunbL/NGBXo7jymCDuEUCdbHLK47kIjOvtDdpPaTyHxQZ2YBkBhbWDxOgFaMvEE8CmCSraOINzSw/3wbTcu0RcSXZtJ779yoWh7U6PJlN5doWoi00Koeo+Rmf3Eg96CgYJsyWsyL/RhkkQguq0GUTTdrFIzBsXthlGgTHjHUSRrlQud3xulOEi+AkPbtSkN17Wf4QjGOAV6+dsX3bMNH7Harrwxw87GLALzxPO41gjognMtQCO+Nr4UgXDrHbWeQ9lfSHQe6EvZfNwRSfyZTtOKFhweelxR3bTriEqrQGpQIDAQAB"
 }
