@@ -96,7 +96,6 @@ export const AuthManager = ({ children }: { children: any }) => {
 
     useEffect(
         () => {
-            console.log('effect!', isSignedIn, user);
             setProps({
                 isSignedIn,
                 user,
