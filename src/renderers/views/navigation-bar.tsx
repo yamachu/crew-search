@@ -8,8 +8,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import { useContext, useState } from 'react';
 import React = require('react');
 import { AuthContext } from '../contexts/auth';
+import NavigationWrapper from '../styles/navigation-bar';
 import { GrowSpacer } from './spacer';
-import NavigationWrapper from './styles/navigation-bar';
 
 export const NavigationBar = () => {
     const auth = useContext(AuthContext);
