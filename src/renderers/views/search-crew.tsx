@@ -1,3 +1,13 @@
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import TextField from '@material-ui/core/TextField';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import EventNoteIcon from '@material-ui/icons/EventNote';
+import PersonIcon from '@material-ui/icons/Person';
+import SearchIcon from '@material-ui/icons/Search';
 import { useContext, useEffect, useRef, useState } from 'react';
 import React = require('react');
 import { from, fromEvent } from 'rxjs';
@@ -5,9 +15,11 @@ import { debounceTime, switchMap } from 'rxjs/operators';
 import { ExtensionMessagePop2Back, FetchSearchUrlMessage } from '../../contracts/message';
 import { AzureSearchService } from '../../services/AzureSearchClient';
 import { AuthContext } from '../contexts/auth';
+import SearchCrewWrapper, { FlexDiv, IconCentering } from '../styles/search-crew';
 
 export const SearchCrew = () => {
     const inputRef = useRef<HTMLInputElement>(null);
+    const pasteBoardRef = useRef<HTMLInputElement>(null);
     const [searchClient, setSearchClient] = useState<AzureSearchService | null>(null);
     const [predictions, setPredictions] = useState<any[]>([]);
     const auth = useContext(AuthContext);
@@ -30,7 +42,13 @@ export const SearchCrew = () => {
         });
     };
 
-    useEffect(initalizeClient, []);
+    useEffect(() => {
+        if (!auth.props.isSignedIn) {
+            return;
+        }
+        initalizeClient();
+        inputRef.current!.focus();
+    }, []);
     useEffect(
         () => {
             if (searchClient === null) {
@@ -57,18 +75,56 @@ export const SearchCrew = () => {
                 return;
             }
             initalizeClient();
+            inputRef.current!.focus();
         },
         [auth.props.isSignedIn]
     );
 
+    const copyToClipboard = (value: string) => {
+        pasteBoardRef.current!.value = value;
+        pasteBoardRef.current!.select();
+        document.execCommand('copy');
+        pasteBoardRef.current!.value = '';
+    };
+
     return (
-        <>
-            <input ref={inputRef} />
-            <ul>
+        <SearchCrewWrapper>
+            <FlexDiv>
+                <IconCentering>
+                    <SearchIcon />
+                </IconCentering>
+                <TextField
+                    placeholder={'search query, nickname, email, etc...'}
+                    margin={'dense'}
+                    inputRef={inputRef}
+                    fullWidth
+                />
+                <input ref={pasteBoardRef} style={{ width: 1, height: 1 }} />
+            </FlexDiv>
+
+            {/* Todo: いい感じの計算 */}
+            <List style={{ maxHeight: 279, overflow: 'auto' }}>
                 {predictions.map((v) => {
-                    return <li key={v.email}>{`${v.name} / ${v.email}`}</li>;
+                    return (
+                        <ListItem key={v.email} dense>
+                            <ListItemText primary={v.name} secondary={v.email} key={v.email} />
+                            <ListItemSecondaryAction>
+                                <IconButton onClick={() => copyToClipboard(v.email)}>
+                                    <AssignmentIcon fontSize={'small'} />
+                                </IconButton>
+                                {/* CalendarViewに飛ばす予定 */}
+                                <IconButton>
+                                    <EventNoteIcon fontSize={'small'} />
+                                </IconButton>
+                                {/* 検索結果を詳細に表示させたりとか？ */}
+                                <IconButton>
+                                    <PersonIcon fontSize={'small'} />
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    );
                 })}
-            </ul>
-        </>
+            </List>
+        </SearchCrewWrapper>
     );
 };
