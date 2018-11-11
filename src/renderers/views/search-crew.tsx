@@ -13,7 +13,7 @@ import { History } from 'history';
 import { useContext, useEffect, useRef, useState } from 'react';
 import React = require('react');
 import { withRouter } from 'react-router-dom';
-import { from, fromEvent } from 'rxjs';
+import { from, fromEvent, of, zip } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { ExtensionMessagePop2Back, FetchSearchUrlMessage } from '../../contracts/message';
 import { AzureSearchService } from '../../services/AzureSearchClient';
@@ -60,9 +60,14 @@ const SearchCrew = (props: { history: History; [key: string]: any }) => {
             const disposable = fromEvent(inputRef.current!, 'input')
                 .pipe(
                     debounceTime(500),
-                    switchMap((v) => from(searchClient!.searchUsers((v.target as any).value)))
+                    switchMap((v) =>
+                        zip(
+                            of((v.target as any).value as string),
+                            from(searchClient!.searchUsers((v.target as any).value))
+                        )
+                    )
                 )
-                .subscribe((v) => setPredictions(v));
+                .subscribe(([form, predict]) => setPredictions(form === '' ? [] : predict));
             return () => {
                 disposable.unsubscribe();
             };
