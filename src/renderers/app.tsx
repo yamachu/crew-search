@@ -3,7 +3,8 @@ import { createMemoryHistory } from 'history';
 import { useContext, useEffect } from 'react';
 import React = require('react');
 import { Route, Router, Switch, withRouter } from 'react-router-dom';
-import { AuthContext, AuthManager } from './contexts/auth';
+import ApplicationContextProvider from './contexts/app';
+import { AuthContext } from './contexts/auth';
 import NavigationBar from './views/navigation-bar';
 import SearchCrew from './views/search-crew';
 import Top from './views/top';
@@ -15,7 +16,7 @@ export const App = () => {
     return (
         <>
             <Router history={history}>
-                <AuthManager>
+                <ApplicationContextProvider>
                     <NavigationBar />
                     <Switch>
                         <RouterContens>
@@ -24,7 +25,7 @@ export const App = () => {
                             <Route exact path="/index.html" component={Top} />
                         </RouterContens>
                     </Switch>
-                </AuthManager>
+                </ApplicationContextProvider>
             </Router>
         </>
     );

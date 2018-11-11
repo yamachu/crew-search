@@ -35,7 +35,7 @@ export const AuthContext = createContext<IAuth>({
     },
 });
 
-export const AuthManager = ({ children }: { children: any }) => {
+export default ({ children }: { children: any }) => {
     const [props, setProps] = useState<IAuthProps>({
         isSignedIn: false,
         user: null,
