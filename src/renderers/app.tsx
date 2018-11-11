@@ -7,6 +7,7 @@ import { AuthContext, AuthManager } from './contexts/auth';
 import NavigationBar from './views/navigation-bar';
 import SearchCrew from './views/search-crew';
 import Top from './views/top';
+import UserInfo from './views/user-info';
 
 const history = createMemoryHistory();
 
@@ -19,6 +20,7 @@ export const App = () => {
                     <Switch>
                         <RouterContens>
                             <Route path="/search" component={SearchCrew} />
+                            <Route path="/user/info" component={UserInfo} />
                             <Route exact path="/index.html" component={Top} />
                         </RouterContens>
                     </Switch>

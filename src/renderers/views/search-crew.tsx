@@ -119,8 +119,11 @@ const SearchCrew = (props: { history: History; [key: string]: any }) => {
                                 <IconButton>
                                     <EventNoteIcon fontSize={'small'} />
                                 </IconButton>
-                                {/* 検索結果を詳細に表示させたりとか？ */}
-                                <IconButton>
+                                <IconButton
+                                    onClick={() => {
+                                        props.history.push('/user/info', { user: v });
+                                    }}
+                                >
                                     <PersonIcon fontSize={'small'} />
                                 </IconButton>
                             </ListItemSecondaryAction>
