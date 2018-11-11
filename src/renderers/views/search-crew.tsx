@@ -18,6 +18,7 @@ import { debounceTime, switchMap } from 'rxjs/operators';
 import { ExtensionMessagePop2Back, FetchSearchUrlMessage } from '../../contracts/message';
 import { AzureSearchService } from '../../services/AzureSearchClient';
 import { AuthContext } from '../contexts/auth';
+import { SearchCrewContext } from '../contexts/search-crew';
 import SearchCrewWrapper, { FlexDiv, IconCentering } from '../styles/search-crew';
 
 const SearchCrew = (props: { history: History; [key: string]: any }) => {
@@ -26,6 +27,7 @@ const SearchCrew = (props: { history: History; [key: string]: any }) => {
     const [searchClient, setSearchClient] = useState<AzureSearchService | null>(null);
     const [predictions, setPredictions] = useState<any[]>([]);
     const auth = useContext(AuthContext);
+    const scContext = useContext(SearchCrewContext);
 
     const initalizeClient = () => {
         const message: ExtensionMessagePop2Back = {
@@ -51,6 +53,9 @@ const SearchCrew = (props: { history: History; [key: string]: any }) => {
         }
         initalizeClient();
         inputRef.current!.focus();
+        const state = scContext.props.state;
+        inputRef.current!.value = state[0];
+        setPredictions(state[1]);
     }, []);
     useEffect(
         () => {
@@ -67,7 +72,10 @@ const SearchCrew = (props: { history: History; [key: string]: any }) => {
                         )
                     )
                 )
-                .subscribe(([form, predict]) => setPredictions(form === '' ? [] : predict));
+                .subscribe(([form, predict]) => {
+                    setPredictions(form === '' ? [] : predict);
+                    scContext.actions.setState([form, predict]);
+                });
             return () => {
                 disposable.unsubscribe();
             };
