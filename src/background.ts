@@ -30,7 +30,7 @@ const login = async (response: (val: ExtensionMessageBack2Pop) => void) => {
 const searchRangedEvents = async (
     payload: {
         calendarId: string;
-        date: Date;
+        date: string;
     },
     response: (val: ExtensionMessageBack2Pop) => void
 ) => {

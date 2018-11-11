@@ -14,7 +14,7 @@ export type ExtensionMessagePop2Back =
           type: 'FETCH_CALENDAR';
           payload: {
               calendarId: string;
-              date: Date;
+              date: string; // `${currentDate.getFullYear()}/${currentDate.getMonth() + 1}/${currentDate.getDate()}`
           };
       }
     | {

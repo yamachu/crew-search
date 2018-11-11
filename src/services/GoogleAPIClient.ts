@@ -6,7 +6,7 @@ export class GoogleAPIClient {
         this.accessToken = token;
     }
 
-    public async FetchEventsInTheDate(calendarId: string, date: Date) {
+    public async FetchEventsInTheDate(calendarId: string, date: string) {
         return this.FetchEvents(calendarId, {
             ...this.getRangedTime(date),
         });
@@ -46,10 +46,8 @@ export class GoogleAPIClient {
         }).then((res) => res.json());
     }
 
-    private getRangedTime(currentDate: Date) {
-        const today = new Date(
-            `${currentDate.getFullYear()}/${currentDate.getMonth() + 1}/${currentDate.getDate()}`
-        );
+    private getRangedTime(currentDate: string) {
+        const today = new Date(currentDate);
         const tomorrow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
 
