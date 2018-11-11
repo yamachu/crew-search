@@ -5,13 +5,17 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Toolbar from '@material-ui/core/Toolbar';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+// tslint:disable-next-line:no-implicit-dependencies
+import { History, MemoryHistory } from 'history';
 import { useContext, useState } from 'react';
 import React = require('react');
+import { withRouter } from 'react-router-dom';
 import { AuthContext } from '../contexts/auth';
 import NavigationWrapper from '../styles/navigation-bar';
 import { GrowSpacer } from './spacer';
 
-export const NavigationBar = () => {
+export const NavigationBar = (props: { history: History; [key: string]: any }) => {
     const auth = useContext(AuthContext);
     const [anchorElement, setAnchorElement] = useState<HTMLElement | null>(null);
 
@@ -19,6 +23,19 @@ export const NavigationBar = () => {
         <NavigationWrapper>
             <AppBar position={'static'}>
                 <Toolbar variant={'dense'}>
+                    {(props.history as MemoryHistory).index > 0 ? (
+                        <IconButton
+                            color="inherit"
+                            style={{ marginLeft: -12, marginRight: 20 }}
+                            onClick={() => {
+                                props.history.goBack();
+                            }}
+                        >
+                            <ArrowBackIcon />
+                        </IconButton>
+                    ) : (
+                        <></>
+                    )}
                     <GrowSpacer />
                     {auth.props.isSignedIn ? (
                         <IconButton
@@ -91,3 +108,5 @@ const AccountMenu = (props: AccountMenuProps) => {
         </Menu>
     );
 };
+
+export default withRouter(NavigationBar);

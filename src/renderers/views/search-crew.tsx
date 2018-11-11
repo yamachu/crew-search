@@ -8,8 +8,11 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import PersonIcon from '@material-ui/icons/Person';
 import SearchIcon from '@material-ui/icons/Search';
+// tslint:disable-next-line:no-implicit-dependencies
+import { History } from 'history';
 import { useContext, useEffect, useRef, useState } from 'react';
 import React = require('react');
+import { withRouter } from 'react-router-dom';
 import { from, fromEvent } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { ExtensionMessagePop2Back, FetchSearchUrlMessage } from '../../contracts/message';
@@ -17,7 +20,7 @@ import { AzureSearchService } from '../../services/AzureSearchClient';
 import { AuthContext } from '../contexts/auth';
 import SearchCrewWrapper, { FlexDiv, IconCentering } from '../styles/search-crew';
 
-export const SearchCrew = () => {
+const SearchCrew = (props: { history: History; [key: string]: any }) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const pasteBoardRef = useRef<HTMLInputElement>(null);
     const [searchClient, setSearchClient] = useState<AzureSearchService | null>(null);
@@ -128,3 +131,5 @@ export const SearchCrew = () => {
         </SearchCrewWrapper>
     );
 };
+
+export default withRouter(SearchCrew);

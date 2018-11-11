@@ -1,18 +1,46 @@
+// tslint:disable-next-line:no-implicit-dependencies
+import { createMemoryHistory } from 'history';
+import { useContext, useEffect } from 'react';
 import React = require('react');
-import { AuthManager } from './contexts/auth';
-import { NavigationBar } from './views/navigation-bar';
-import { SearchCrew } from './views/search-crew';
+import { Route, Router, Switch, withRouter } from 'react-router-dom';
+import { AuthContext, AuthManager } from './contexts/auth';
+import NavigationBar from './views/navigation-bar';
+import SearchCrew from './views/search-crew';
+import Top from './views/top';
+
+const history = createMemoryHistory();
 
 export const App = () => {
     return (
         <>
-            {/* Router */}
-            <AuthManager>
-                <NavigationBar />
-
-                <SearchCrew />
-            </AuthManager>
-            {/* /Router */}
+            <Router history={history}>
+                <AuthManager>
+                    <NavigationBar />
+                    <Switch>
+                        <RouterContens>
+                            <Route path="/search" component={SearchCrew} />
+                            <Route exact path="/index.html" component={Top} />
+                        </RouterContens>
+                    </Switch>
+                </AuthManager>
+            </Router>
         </>
     );
 };
+
+const Contents = (props: any) => {
+    const auth = useContext(AuthContext);
+
+    useEffect(
+        () => {
+            if (auth.props.isSignedIn) {
+                props.history.replace('/search');
+            }
+        },
+        [auth.props.isSignedIn]
+    );
+
+    return <>{props.children}</>;
+};
+
+const RouterContens = withRouter(Contents);
