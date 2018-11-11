@@ -6,6 +6,7 @@ import { Route, Router, Switch, withRouter } from 'react-router-dom';
 import ApplicationContextProvider from './contexts/app';
 import { AuthContext } from './contexts/auth';
 import AuthRoute from './views/auth-route';
+import DateEvent from './views/date-event';
 import NavigationBar from './views/navigation-bar';
 import SearchCrew from './views/search-crew';
 import Top from './views/top';
@@ -23,6 +24,7 @@ export const App = () => {
                         <RouterContens>
                             <AuthRoute path="/search" component={SearchCrew} />
                             <AuthRoute path="/user/info" component={UserInfo} />
+                            <AuthRoute path="/user/:calId/calendar" component={DateEvent} />
                             <Route exact path="/index.html" component={Top} />
                         </RouterContens>
                     </Switch>

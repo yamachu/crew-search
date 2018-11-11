@@ -128,8 +128,11 @@ const SearchCrew = (props: { history: History; [key: string]: any }) => {
                                 <IconButton onClick={() => copyToClipboard(v.email)}>
                                     <AssignmentIcon fontSize={'small'} />
                                 </IconButton>
-                                {/* CalendarViewに飛ばす予定 */}
-                                <IconButton>
+                                <IconButton
+                                    onClick={() => {
+                                        props.history.push(`/user/${v.email}/calendar`);
+                                    }}
+                                >
                                     <EventNoteIcon fontSize={'small'} />
                                 </IconButton>
                                 <IconButton
