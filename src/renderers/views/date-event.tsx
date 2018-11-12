@@ -47,7 +47,28 @@ export const DateEvent = (props: { history: History; match: match; [key: string]
         <DateEventWrapper>
             <DateSwitcher {...{ state: { date }, actions: { setDate } }} />
 
-            <List>{events.items.filter((v) => v.status !== 'cancelled').map(EventItemCell)}</List>
+            <List>
+                {events.items
+                    .filter((v) => v.status !== 'cancelled')
+                    .filter((v) => v.recurrence === undefined)
+                    .sort((a, b) => {
+                        if (a.start.dateTime === undefined && b.start.dateTime !== undefined) {
+                            return 1;
+                        }
+                        if (a.start.dateTime === undefined && b.start.dateTime === undefined) {
+                            return 0;
+                        }
+                        if (a.start.dateTime !== undefined && b.start.dateTime === undefined) {
+                            return -1;
+                        }
+                        return a.start.dateTime > b.start.dateTime
+                            ? 1
+                            : a.start.dateTime === b.start.dateTime
+                            ? 0
+                            : -1;
+                    })
+                    .map(EventItemCell)}
+            </List>
         </DateEventWrapper>
     );
 };
