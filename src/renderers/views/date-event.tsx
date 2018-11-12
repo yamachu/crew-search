@@ -47,7 +47,7 @@ export const DateEvent = (props: { history: History; match: match; [key: string]
         <DateEventWrapper>
             <DateSwitcher {...{ state: { date }, actions: { setDate } }} />
 
-            <List>{events.items.map(EventItemCell)}</List>
+            <List>{events.items.filter((v) => v.status !== 'cancelled').map(EventItemCell)}</List>
         </DateEventWrapper>
     );
 };
