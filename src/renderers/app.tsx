@@ -10,6 +10,7 @@ import DateEvent from './views/date-event';
 import NavigationBar from './views/navigation-bar';
 import SearchCrew from './views/search-crew';
 import Top from './views/top';
+import UserEdit from './views/user-edit';
 import UserInfo from './views/user-info';
 
 const history = createMemoryHistory();
@@ -24,6 +25,7 @@ export const App = () => {
                         <RouterContens>
                             <AuthRoute path="/search" component={SearchCrew} />
                             <AuthRoute path="/user/info" component={UserInfo} />
+                            <AuthRoute path="/user/edit" component={UserEdit} />
                             <AuthRoute path="/user/:calId/calendar" component={DateEvent} />
                             <Route exact path="/index.html" component={Top} />
                         </RouterContens>

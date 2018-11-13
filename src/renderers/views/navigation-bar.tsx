@@ -42,11 +42,7 @@ export const NavigationBar = (props: { history: History; [key: string]: any }) =
                             aria-owns={Boolean(anchorElement) ? 'material-appbar' : undefined}
                             aria-haspopup={'true'}
                             color={'inherit'}
-                            onClick={(ev) =>
-                                /* setAnchorElement(ev.currentTarget) */ console.info(
-                                    'Icon Clicked'
-                                )
-                            }
+                            onClick={(ev) => setAnchorElement(ev.currentTarget)}
                         >
                             <AccountCircle />
                         </IconButton>
@@ -67,6 +63,8 @@ export const NavigationBar = (props: { history: History; [key: string]: any }) =
                 {...{
                     state: {
                         anchorElement,
+                        history: props.history,
+                        user: auth.props.user,
                     },
                     actions: {
                         onClose: () => {
@@ -82,6 +80,8 @@ export const NavigationBar = (props: { history: History; [key: string]: any }) =
 interface AccountMenuProps {
     state: {
         anchorElement: HTMLElement | null;
+        history: History;
+        user: any;
     };
     actions: {
         onClose: () => void;
@@ -100,10 +100,11 @@ const AccountMenu = (props: AccountMenuProps) => {
             <MenuItem
                 dense={true}
                 onClick={() => {
-                    console.debug('Will be implemented...');
+                    props.state.history.push('/user/edit', { user: props.state.user });
+                    props.actions.onClose();
                 }}
             >
-                {'Dummy'}
+                {'ユーザ情報の編集'}
             </MenuItem>
         </Menu>
     );
