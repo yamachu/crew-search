@@ -15,6 +15,7 @@ const UserInfo = (props: {
         <UserInfoWrapper>
             <Typography>{props.location.state.user.name}</Typography>
             <Typography color={'textSecondary'}>{props.location.state.user.email}</Typography>
+            <Typography component={'p'}>{props.location.state.user.organization}</Typography>
             <Typography component={'p'}>{props.location.state.user.yomi}</Typography>
         </UserInfoWrapper>
     );
