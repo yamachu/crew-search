@@ -47,7 +47,8 @@ export const DateEvent = (props: { history: History; match: match; [key: string]
         <DateEventWrapper>
             <DateSwitcher {...{ state: { date }, actions: { setDate } }} />
 
-            <List>
+            {/* Todo: いい感じの計算 */}
+            <List style={{ maxHeight: 298, overflow: 'auto' }}>
                 {events.items
                     .filter((v) => v.status !== 'cancelled')
                     .filter((v) => v.recurrence === undefined)
