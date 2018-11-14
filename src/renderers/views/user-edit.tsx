@@ -80,7 +80,9 @@ const UserEdit = (props: { [key: string]: any }) => {
             searchClient
                 .searchUsers(auth.props.user!.email)
                 .then((v: any[]) => {
-                    const user = v.find((u) => u.email === auth.props.user!.email);
+                    const user = v.find(
+                        (u) => u.email.toLowerCase() === auth.props.user!.email.toLowerCase()
+                    );
                     if (user === undefined) {
                         console.warn('User not found in AzureSearch');
                         return;
