@@ -137,8 +137,11 @@ const updateUser = async (
     const [url, apiKey] = await firebase.fetchUserUpdateUrl();
     const result = await fetch(`${url}?code=${apiKey}`, {
         method: 'POST',
+        mode: 'cors',
         headers: {
-            Authorization: `Bearer: ${firebaseToken}`,
+            // tslint:disable-next-line:quotemark
+            "Authorization": `Bearer: ${firebaseToken}`,
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload.user),
     })
