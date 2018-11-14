@@ -19,6 +19,17 @@ export type ExtensionMessagePop2Back =
       }
     | {
           type: 'FETCH_USER';
+      }
+    | {
+          type: 'UPDATE_USER';
+          payload: {
+              user: {
+                  name: string;
+                  email: string;
+                  organization: string;
+                  yomi: string;
+              };
+          };
       };
 
 export interface ExtensionMessageBack2Pop {
@@ -56,4 +67,9 @@ export interface FetchUserMessage extends ExtensionMessageBack2Pop {
     payload: {
         user: User;
     };
+}
+
+// tslint:disable-next-line:no-empty-interface
+export interface UpdateUserMessage extends ExtensionMessageBack2Pop {
+    //
 }

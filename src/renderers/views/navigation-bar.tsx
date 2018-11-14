@@ -64,7 +64,6 @@ export const NavigationBar = (props: { history: History; [key: string]: any }) =
                     state: {
                         anchorElement,
                         history: props.history,
-                        user: auth.props.user,
                     },
                     actions: {
                         onClose: () => {
@@ -81,7 +80,6 @@ interface AccountMenuProps {
     state: {
         anchorElement: HTMLElement | null;
         history: History;
-        user: any;
     };
     actions: {
         onClose: () => void;
@@ -100,7 +98,7 @@ const AccountMenu = (props: AccountMenuProps) => {
             <MenuItem
                 dense={true}
                 onClick={() => {
-                    props.state.history.push('/user/edit', { user: props.state.user });
+                    props.state.history.push('/user/edit');
                     props.actions.onClose();
                 }}
             >
