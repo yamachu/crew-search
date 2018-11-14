@@ -121,6 +121,37 @@ const fetchUser = async (response: (val: ExtensionMessageBack2Pop) => void) => {
         });
 };
 
+const updateUser = async (
+    payload: {
+        user: {
+            name: string;
+            email: string;
+            organization: string;
+            yomi: string;
+        };
+    },
+    response: (val: ExtensionMessageBack2Pop) => void
+) => {
+    const user = await firebase.fetchUser();
+    const firebaseToken = await user.getIdToken();
+    const [url, apiKey] = await firebase.fetchUserUpdateUrl();
+    const result = await fetch(`${url}?code=${apiKey}`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer: ${firebaseToken}`,
+        },
+        body: JSON.stringify(payload.user),
+    })
+        .then((res) => {
+            return res.status === 200;
+        })
+        .catch((_) => false);
+
+    response({
+        ok: result,
+    });
+};
+
 // 非同期だとtrueを返すっぽい, ref: http://var.blog.jp/archives/52377390.html
 chrome.runtime.onMessage.addListener((msg: ExtensionMessagePop2Back, sender, response) => {
     switch (msg.type) {
@@ -138,6 +169,9 @@ chrome.runtime.onMessage.addListener((msg: ExtensionMessagePop2Back, sender, res
             return true;
         case 'FETCH_USER':
             fetchUser(response);
+            return true;
+        case 'UPDATE_USER':
+            updateUser(msg.payload, response);
             return true;
         default:
             response('unknown request');

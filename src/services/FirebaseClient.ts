@@ -57,4 +57,23 @@ export class FirebaseClient {
             reject();
         });
     }
+
+    public async fetchUserUpdateUrl(): Promise<[string, string]> {
+        return firebase
+            .database()
+            .ref('/consts')
+            .once('value')
+            .then((snapshot) => {
+                return Promise.all([
+                    snapshot.ref
+                        .child('update_url')
+                        .once('value')
+                        .then((s) => s.val()),
+                    snapshot.ref
+                        .child('update_token')
+                        .once('value')
+                        .then((s) => s.val()),
+                ]);
+            });
+    }
 }
