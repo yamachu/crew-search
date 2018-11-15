@@ -23,24 +23,35 @@ export const DateEvent = (props: { history: History; match: match; [key: string]
     const [date, setDate] = useState(new Date());
     const [events, setEvents] = useState<{ items: any[] }>({ items: [] });
 
+    const fetchEvents = () => {
+        const message: ExtensionMessagePop2Back = {
+            type: 'FETCH_CALENDAR',
+            payload: {
+                calendarId: (props.match.params as any).calId,
+                date: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`,
+            },
+        };
+        chrome.runtime.sendMessage(message, (response: FetchCalendarMessage) => {
+            if (!response.ok) {
+                console.warn('Not Authrorized or ...', response);
+            } else {
+                setEvents(response.payload.events);
+            }
+        });
+    };
+
     useEffect(
         () => {
-            const message: ExtensionMessagePop2Back = {
-                type: 'FETCH_CALENDAR',
-                payload: {
-                    calendarId: (props.match.params as any).calId,
-                    date: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`,
-                },
-            };
-            chrome.runtime.sendMessage(message, (response: FetchCalendarMessage) => {
-                if (!response.ok) {
-                    console.warn('Not Authrorized or ...', response);
-                } else {
-                    setEvents(response.payload.events);
-                }
-            });
+            fetchEvents();
         },
         [date]
+    );
+
+    useEffect(
+        () => {
+            fetchEvents();
+        },
+        [props.match.params]
     );
 
     return (

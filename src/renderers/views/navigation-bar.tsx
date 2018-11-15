@@ -1,5 +1,6 @@
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -11,6 +12,7 @@ import { History, MemoryHistory } from 'history';
 import { useContext, useState } from 'react';
 import React = require('react');
 import { withRouter } from 'react-router-dom';
+import { User } from '../../contracts/user';
 import { AuthContext } from '../contexts/auth';
 import NavigationWrapper from '../styles/navigation-bar';
 import { GrowSpacer } from './spacer';
@@ -64,6 +66,7 @@ export const NavigationBar = (props: { history: History; [key: string]: any }) =
                     state: {
                         anchorElement,
                         history: props.history,
+                        user: auth.props.user,
                     },
                     actions: {
                         onClose: () => {
@@ -80,6 +83,7 @@ interface AccountMenuProps {
     state: {
         anchorElement: HTMLElement | null;
         history: History;
+        user: User | null;
     };
     actions: {
         onClose: () => void;
@@ -95,6 +99,16 @@ const AccountMenu = (props: AccountMenuProps) => {
             open={Boolean(props.state.anchorElement)}
             onClose={props.actions.onClose}
         >
+            <MenuItem
+                dense={true}
+                onClick={() => {
+                    props.state.history.push(`/user/${props.state.user!.email}/calendar`);
+                    props.actions.onClose();
+                }}
+            >
+                {'自分の予定'}
+            </MenuItem>
+            <Divider />
             <MenuItem
                 dense={true}
                 onClick={() => {
