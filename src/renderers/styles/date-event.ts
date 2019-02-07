@@ -1,4 +1,4 @@
-import Typography from '@material-ui/core/Typography';
+import Typography, { TypographyProps } from '@material-ui/core/Typography';
 import styled from 'styled-components';
 
 export default styled.div`
@@ -9,12 +9,14 @@ export const FlexDiv = styled.div`
     display: flex;
 `;
 
-export const GrowingCenteringTypography = styled(Typography)`
+export const GrowingCenteringTypography = styled(Typography as React.StatelessComponent<
+    TypographyProps
+>)`
     flex-grow: 1;
     align-self: center;
     text-align: center;
 `;
 
-export const WrappedTypography = styled(Typography)`
+export const WrappedTypography = styled(Typography as React.StatelessComponent<TypographyProps>)`
     overflow-wrap: break-word;
 `;
