@@ -1,5 +1,5 @@
 node_modules/
 dist/
-credential/firebaseConfig.json
+client/credential/firebaseConfig.json
 *.crx
 *.pem
