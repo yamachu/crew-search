@@ -26,6 +26,7 @@ lazy val root = (project in file("."))
   .settings(commonSettings)
   .settings(
     name := "crew-search-index-updater",
+    libraryDependencies ++= rootDependencies,
   )
 
 lazy val azure = (project in file("azure"))
@@ -41,6 +42,10 @@ lazy val azure = (project in file("azure"))
 
 val azureDependencies = Seq(
   "com.microsoft.azure.functions" % "azure-functions-java-library" % "1.3.0"
+)
+
+val rootDependencies = Seq(
+  "com.google.firebase" % "firebase-admin" % "6.7.0"
 )
 
 scalafmtOnCompile in ThisBuild := true
