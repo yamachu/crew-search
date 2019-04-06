@@ -45,7 +45,9 @@ val azureDependencies = Seq(
 )
 
 val rootDependencies = Seq(
-  "com.google.firebase" % "firebase-admin" % "6.7.0"
+  "com.google.firebase" % "firebase-admin" % "6.7.0",
+  "com.softwaremill.sttp" %% "core"  % "1.5.11",
+  "com.softwaremill.sttp" %% "circe" % "1.5.11",
 )
 
 scalafmtOnCompile in ThisBuild := true
