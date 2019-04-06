@@ -1,0 +1,17 @@
+# ignore built jars
+target/
+
+# logs
+*.log
+
+# Ensime specific
+.ensime
+.ensime_cache/
+.ensime_lucene/
+
+# IntelliJ IDEA
+.idea/
+
+# bye built files
+*.jar
+*.zip
