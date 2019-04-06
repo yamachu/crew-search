@@ -1,12 +1,10 @@
 package dev.yamachu.crewsearch.azure
 
-import java.util._
-
+import com.microsoft.azure.functions._
+import com.microsoft.azure.functions.annotation._
 import dev.yamachu.crewsearch._
 import dev.yamachu.crewsearch.azure.utils.Logger
 import dev.yamachu.crewsearch.objects.Requests
-import com.microsoft.azure.functions._
-import com.microsoft.azure.functions.annotation._
 
 import collection.JavaConverters._
 
@@ -20,9 +18,13 @@ class Handler {
                   context: ExecutionContext): HttpResponseMessage = {
     val logger = Logger(context.getLogger)
     logger.info("Scala HTTP POST trigger processed a request.")
+    val maybeFirebaseToken =
+      request.getHeaders.asScala.get("Authorization").map(_.replace("Bearer ", ""))
 
     (for {
-      result <- Functions(logger).run(request.getBody)
+      firebaseToken <- maybeFirebaseToken.toRight(new Exception("Cannot find Authorization header"))
+      // ここでFirebaseToken使ってemailアドレスのValidation
+      result        <- Functions(logger).run(request.getBody)
     } yield result) match {
       case Right(s) =>
         request.createResponseBuilder(HttpStatus.OK).body(s).build
