@@ -21,7 +21,7 @@ class Handler {
     logger.info("Scala HTTP POST trigger processed a request.")
 
     val maybeFirebaseToken =
-      request.getHeaders.asScala.get("Authorization").map(_.replace("Bearer ", ""))
+      request.getHeaders.asScala.get("authorization").map(_.replace("Bearer ", ""))
     val body = request.getBody
 
     (for {
