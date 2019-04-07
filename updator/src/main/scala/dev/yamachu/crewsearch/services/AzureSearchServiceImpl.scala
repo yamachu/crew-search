@@ -3,7 +3,6 @@ package dev.yamachu.crewsearch.services
 import com.softwaremill.sttp._
 import com.softwaremill.sttp.circe.circeBodySerializer
 import dev.yamachu.crewsearch.objects.SearchDocumentUpdateRequestTrait
-import dev.yamachu.crewsearch.services.AzureSearchService.Config
 import io.circe.syntax._
 
 import scala.util.Try

@@ -17,6 +17,6 @@ object AzureSearchService {
   private var _config: Config           = _
 
   def init(config: Config): Unit = _config = config
-
-  case class Config(serviceName: String, index: String, apiVersion: String, apiKey: String)
 }
+
+case class Config(serviceName: String, index: String, apiVersion: String, apiKey: String)
