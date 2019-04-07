@@ -15,3 +15,6 @@ target/
 # bye built files
 *.jar
 *.zip
+
+# ignore credentials
+src/main/resources/serviceAccountKey.json
