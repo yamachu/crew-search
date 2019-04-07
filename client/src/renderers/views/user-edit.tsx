@@ -107,8 +107,9 @@ const UserEdit = (props: { [key: string]: any }) => {
     const setFormValue = (target: keyof UserInfo) => (
         val: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
+        const value = val.target.value;
         setInfo((prev) => {
-            return { ...prev, ...{ [target]: val.target.value } };
+            return { ...prev, ...{ [target]: value } };
         });
     };
 
