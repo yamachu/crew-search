@@ -140,7 +140,7 @@ const updateUser = async (
         mode: 'cors',
         headers: {
             // tslint:disable-next-line:quotemark
-            "Authorization": `Bearer: ${firebaseToken}`,
+            "Authorization": `Bearer ${firebaseToken}`,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload.user),
