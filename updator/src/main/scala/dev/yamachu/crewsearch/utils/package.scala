@@ -10,4 +10,11 @@ package object utils {
     } finally {
       r close ()
     }
+
+  // ref: https://stackoverflow.com/questions/1226555/case-class-to-map-in-scala
+  def ccToMap(cc: AnyRef): Map[String, Any] =
+    (Map[String, Any]() /: cc.getClass.getDeclaredFields) { (a, f) =>
+      f.setAccessible(true)
+      a + (f.getName -> f.get(cc))
+    }
 }
