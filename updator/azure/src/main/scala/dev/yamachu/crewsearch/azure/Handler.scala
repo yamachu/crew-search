@@ -5,7 +5,7 @@ import com.microsoft.azure.functions.annotation._
 import dev.yamachu.crewsearch._
 import dev.yamachu.crewsearch.azure.utils.Logger
 import dev.yamachu.crewsearch.objects.Requests
-import dev.yamachu.crewsearch.services.{AzureSearchService, Config, MockFirebaseAuthService}
+import dev.yamachu.crewsearch.services.{AzureSearchService, Config, FirebaseAuthService}
 
 import collection.JavaConverters._
 
@@ -35,7 +35,7 @@ class Handler {
 
     (for {
       firebaseToken <- maybeFirebaseToken.toRight(new Exception("Cannot find Authorization header"))
-      _ <- new MockFirebaseAuthService()
+      _ <- FirebaseAuthService.instance
         .verifyEmail(firebaseToken, body.email)
         .flatMap(
           if (_) Right(())
