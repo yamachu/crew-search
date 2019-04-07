@@ -38,8 +38,9 @@ class Handler {
       _ <- FirebaseAuthService.instance
         .verifyEmail(firebaseToken, body.email)
         .flatMap(
-          if (_) Right(())
-          else Left(new Exception("request email do not match firebase user"))
+          b =>
+            if (b) Right(())
+            else Left(new Exception("request email do not match firebase user"))
         )
       result <- Functions(logger).run(body)
     } yield result) match {
