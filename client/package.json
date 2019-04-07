@@ -10,8 +10,8 @@
     "build-production": "webpack --mode='production' && cpx './public/**/*' ./dist"
   },
   "devDependencies": {
-    "@types/chrome": "0.0.79",
-    "@types/node": "10.12.21",
+    "@types/chrome": "0.0.81",
+    "@types/node": "11.13.0",
     "@types/react": "16.8.2",
     "@types/react-dom": "16.8.0",
     "@types/react-router-dom": "4.3.1",
