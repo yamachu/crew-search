@@ -5,7 +5,7 @@ import com.microsoft.azure.functions.annotation._
 import dev.yamachu.crewsearch._
 import dev.yamachu.crewsearch.azure.utils.Logger
 import dev.yamachu.crewsearch.objects.Requests
-import dev.yamachu.crewsearch.services.MockFirebaseAuthService
+import dev.yamachu.crewsearch.services.{AzureSearchService, Config, MockFirebaseAuthService}
 
 import collection.JavaConverters._
 
@@ -19,6 +19,15 @@ class Handler {
                   context: ExecutionContext): HttpResponseMessage = {
     val logger = Logger(context.getLogger)
     logger.info("Scala HTTP POST trigger processed a request.")
+
+    val azureSearchServiceConfig = Config(
+      serviceName = sys.env.getOrElse("SEARCH_SERVICE_NAME", ""),
+      index = sys.env.getOrElse("SEARCH_INDEX", ""),
+      apiVersion = sys.env.getOrElse("SEARCH_API_VERSION", ""),
+      apiKey = sys.env.getOrElse("SEARCH_API_KEY", ""),
+    )
+
+    AzureSearchService.init(azureSearchServiceConfig)
 
     val maybeFirebaseToken =
       request.getHeaders.asScala.get("authorization").map(_.replace("Bearer ", ""))
