@@ -8,8 +8,12 @@ case class Functions(logger: utils.Logger) {
     logger.info("This is common Functions run")
     for {
       _ <- AzureSearchService.instance
-        .updateField(req.email,
-                     SearchDocumentRequest.mergeOrUpload[Requests](Seq(req), s => s.email))
+        .updateField(
+          req.email,
+          SearchDocumentRequest
+            .mergeOrUpload[Requests](Seq(req),
+                                     s => IndexKey(key = "id", value = s.email.split('@').head))
+        )
     } yield Response()
   }
 
