@@ -23,8 +23,8 @@
     "ts-loader": "5.3.3",
     "tslint": "5.15.0",
     "typescript": "3.3.1",
-    "webpack": "4.29.3",
-    "webpack-cli": "3.2.3"
+    "webpack": "4.29.6",
+    "webpack-cli": "3.3.0"
   },
   "dependencies": {
     "@material-ui/core": "3.9.2",
