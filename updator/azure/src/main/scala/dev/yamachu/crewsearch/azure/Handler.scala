@@ -14,7 +14,7 @@ class Handler {
   def runHttpPost(@HttpTrigger(
                     name = "req",
                     methods = Array(HttpMethod.POST),
-                    authLevel = AuthorizationLevel.ANONYMOUS
+                    authLevel = AuthorizationLevel.FUNCTION,
                   ) request: HttpRequestMessage[Requests],
                   context: ExecutionContext): HttpResponseMessage = {
     val logger = Logger(context.getLogger)

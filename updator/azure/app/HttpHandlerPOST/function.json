@@ -7,7 +7,7 @@
       "name": "req",
       "webHookType": "NONE",
       "direction": "in",
-      "authLevel": "anonymous",
+      "authLevel": "function",
       "methods": ["POST"]
     },
     {
