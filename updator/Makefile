@@ -1,12 +1,12 @@
 .PHONY: azure/run azure/run-with-debug azure/build azure/build-watch dump-outdated outdated
 
-azure/run: azure/app/MyAwesomeFunction.jar
+azure/run: azure/app/Updater.jar
 	cd azure/app && func host start
 
-azure/run-with-debug: azure/app/MyAwesomeFunction.jar
+azure/run-with-debug: azure/app/Updater.jar
 	cd azure/app && func host start --language-worker -- "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
 
-azure/app/MyAwesomeFunction.jar:
+azure/app/Updater.jar:
 	sbt azure/assembly
 
 azure/build: 
