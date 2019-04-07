@@ -35,6 +35,12 @@ lazy val azure = (project in file("azure"))
     name := "crew-search-index-updater-azure",
     libraryDependencies ++= azureDependencies,
     assemblyOutputPath in assembly := baseDirectory.value / "app" / "Updater.jar",
+    assemblyMergeStrategy in assembly := {
+      case PathList(ps @ _*) if ps.last endsWith ".properties" => MergeStrategy.first
+      case x =>
+        val oldStrategy = (assemblyMergeStrategy in assembly).value
+        oldStrategy(x)
+    }
   )
   .dependsOn(root)
 
