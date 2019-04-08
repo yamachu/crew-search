@@ -1,7 +1,6 @@
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Typography from '@material-ui/core/Typography';
 import DateRangeIcon from '@material-ui/icons/DateRange';
@@ -10,7 +9,6 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 // tslint:disable-next-line:no-implicit-dependencies
 import { History } from 'history';
 import { useEffect, useState } from 'react';
-import React = require('react');
 import { match, withRouter } from 'react-router-dom';
 import { ExtensionMessagePop2Back, FetchCalendarMessage } from '../../contracts/message';
 import DateEventWrapper, {
@@ -18,6 +16,8 @@ import DateEventWrapper, {
     GrowingCenteringTypography,
     WrappedTypography,
 } from '../styles/date-event';
+import ActionContainedListItem from './commons/ActionContainedListItem';
+import React = require('react');
 
 export const DateEvent = (props: { history: History; match: match; [key: string]: any }) => {
     const [date, setDate] = useState(new Date());
@@ -40,19 +40,13 @@ export const DateEvent = (props: { history: History; match: match; [key: string]
         });
     };
 
-    useEffect(
-        () => {
-            fetchEvents();
-        },
-        [date]
-    );
+    useEffect(() => {
+        fetchEvents();
+    }, [date]);
 
-    useEffect(
-        () => {
-            fetchEvents();
-        },
-        [props.match.params]
-    );
+    useEffect(() => {
+        fetchEvents();
+    }, [props.match.params]);
 
     return (
         <DateEventWrapper>
@@ -121,7 +115,7 @@ const DateSwitcher = (props: {
 const EventItemCell = (event: any, _: number) => {
     const rangeDate = getShowDateString(event);
     return (
-        <ListItem key={event.id}>
+        <ActionContainedListItem key={event.id}>
             <div style={{ width: '100%' }}>
                 <WrappedTypography variant={'body1'} gutterBottom>
                     {event.summary}
@@ -143,7 +137,7 @@ const EventItemCell = (event: any, _: number) => {
                     <DateRangeIcon />
                 </IconButton>
             </ListItemSecondaryAction>
-        </ListItem>
+        </ActionContainedListItem>
     );
 };
 
