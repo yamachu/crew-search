@@ -56,44 +56,38 @@ const SearchCrew = (props: { history: History; [key: string]: any }) => {
         inputRef.current!.value = state[0];
         setPredictions(state[1]);
     }, []);
-    useEffect(
-        () => {
-            if (searchClient === null) {
-                return;
-            }
-            const disposable = fromEvent(inputRef.current!, 'input')
-                .pipe(
-                    debounceTime(500),
-                    switchMap((v) =>
-                        zip(
-                            of((v.target as any).value as string),
-                            from(searchClient!.searchUsers((v.target as any).value))
-                        )
+    useEffect(() => {
+        if (searchClient === null) {
+            return;
+        }
+        const disposable = fromEvent(inputRef.current!, 'input')
+            .pipe(
+                debounceTime(500),
+                switchMap((v) =>
+                    zip(
+                        of((v.target as any).value as string),
+                        from(searchClient!.searchUsers((v.target as any).value))
                     )
                 )
-                .subscribe(([form, predict]) => {
-                    setPredictions(form === '' ? [] : predict);
-                    scContext.actions.setState([form, predict]);
-                });
-            return () => {
-                disposable.unsubscribe();
-            };
-        },
-        [searchClient]
-    );
-    useEffect(
-        () => {
-            if (!auth.props.isSignedIn) {
-                return;
-            }
-            if (searchClient !== null) {
-                return;
-            }
-            initalizeClient();
-            inputRef.current!.focus();
-        },
-        [auth.props.isSignedIn]
-    );
+            )
+            .subscribe(([form, predict]) => {
+                setPredictions(form === '' ? [] : predict);
+                scContext.actions.setState([form, predict]);
+            });
+        return () => {
+            disposable.unsubscribe();
+        };
+    }, [searchClient]);
+    useEffect(() => {
+        if (!auth.props.isSignedIn) {
+            return;
+        }
+        if (searchClient !== null) {
+            return;
+        }
+        initalizeClient();
+        inputRef.current!.focus();
+    }, [auth.props.isSignedIn]);
 
     const copyToClipboard = (value: string) => {
         pasteBoardRef.current!.value = value;
