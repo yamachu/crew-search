@@ -13,9 +13,15 @@ const UserInfo = (props: {
 }) => {
     return (
         <UserInfoWrapper>
-            <Typography>{props.location.state.user.name}</Typography>
-            <Typography color={'textSecondary'}>{props.location.state.user.email}</Typography>
-            <Typography component={'p'}>{props.location.state.user.organization}</Typography>
+            <Typography style={{ wordBreak: 'break-all' }}>
+                {props.location.state.user.name}
+            </Typography>
+            <Typography style={{ wordBreak: 'break-all' }} color={'textSecondary'}>
+                {props.location.state.user.email}
+            </Typography>
+            <Typography style={{ wordBreak: 'break-all' }} component={'p'}>
+                {props.location.state.user.organization}
+            </Typography>
             <Typography component={'p'}>{props.location.state.user.yomi}</Typography>
         </UserInfoWrapper>
     );
