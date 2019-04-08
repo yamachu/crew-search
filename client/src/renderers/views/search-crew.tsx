@@ -127,9 +127,7 @@ const SearchCrew = (props: { history: History; [key: string]: any }) => {
                                     <AssignmentIcon fontSize={'small'} />
                                 </IconButton>
                                 <IconButton
-                                    onClick={() => {
-                                        props.history.push(`/user/${v.email}/calendar`);
-                                    }}
+                                    onClick={() => props.history.push(`/user/${v.email}/calendar`)}
                                 >
                                     <EventNoteIcon fontSize={'small'} />
                                 </IconButton>
