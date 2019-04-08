@@ -115,7 +115,7 @@ const SearchCrew = (props: { history: History; [key: string]: any }) => {
                     inputRef={inputRef}
                     fullWidth
                 />
-                <input ref={pasteBoardRef} style={{ width: 1, height: 1 }} />
+                <input ref={pasteBoardRef} tabIndex={-1} hidden style={{ width: 1, height: 1 }} />
             </FlexDiv>
 
             {/* Todo: いい感じの計算 */}
