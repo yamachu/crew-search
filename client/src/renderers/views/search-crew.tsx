@@ -1,8 +1,6 @@
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import EventNoteIcon from '@material-ui/icons/EventNote';
@@ -19,6 +17,8 @@ import { AzureSearchService } from '../../services/AzureSearchClient';
 import { AuthContext } from '../contexts/auth';
 import { SearchCrewContext } from '../contexts/search-crew';
 import SearchCrewWrapper, { FlexDiv, IconCentering } from '../styles/search-crew';
+import EllipsisListItemText from './commons/EllipsisListItemText';
+import TwiceActionsContainedListItem from './commons/TwiceActionsContainedListItem';
 
 const SearchCrew = (props: { history: History; [key: string]: any }) => {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -115,8 +115,8 @@ const SearchCrew = (props: { history: History; [key: string]: any }) => {
             <List style={{ maxHeight: 279, overflow: 'auto' }}>
                 {predictions.map((v) => {
                     return (
-                        <ListItem key={v.email} dense>
-                            <ListItemText
+                        <TwiceActionsContainedListItem key={v.email} dense>
+                            <EllipsisListItemText
                                 primary={v.name}
                                 secondary={v.email}
                                 key={v.email}
@@ -132,7 +132,7 @@ const SearchCrew = (props: { history: History; [key: string]: any }) => {
                                     <EventNoteIcon fontSize={'small'} />
                                 </IconButton>
                             </ListItemSecondaryAction>
-                        </ListItem>
+                        </TwiceActionsContainedListItem>
                     );
                 })}
             </List>
