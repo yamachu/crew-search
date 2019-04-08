@@ -6,7 +6,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import EventNoteIcon from '@material-ui/icons/EventNote';
-import PersonIcon from '@material-ui/icons/Person';
 import SearchIcon from '@material-ui/icons/Search';
 // tslint:disable-next-line:no-implicit-dependencies
 import { History } from 'history';
@@ -123,7 +122,12 @@ const SearchCrew = (props: { history: History; [key: string]: any }) => {
                 {predictions.map((v) => {
                     return (
                         <ListItem key={v.email} dense>
-                            <ListItemText primary={v.name} secondary={v.email} key={v.email} />
+                            <ListItemText
+                                primary={v.name}
+                                secondary={v.email}
+                                key={v.email}
+                                onClick={() => props.history.push('/user/info', { user: v })}
+                            />
                             <ListItemSecondaryAction>
                                 <IconButton onClick={() => copyToClipboard(v.email)}>
                                     <AssignmentIcon fontSize={'small'} />
@@ -134,13 +138,6 @@ const SearchCrew = (props: { history: History; [key: string]: any }) => {
                                     }}
                                 >
                                     <EventNoteIcon fontSize={'small'} />
-                                </IconButton>
-                                <IconButton
-                                    onClick={() => {
-                                        props.history.push('/user/info', { user: v });
-                                    }}
-                                >
-                                    <PersonIcon fontSize={'small'} />
                                 </IconButton>
                             </ListItemSecondaryAction>
                         </ListItem>
